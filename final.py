@@ -4,7 +4,7 @@ import wave
 from scipy.io import wavfile
 import contextlib
 
-# from http://stackoverflow.com/questions/2226853/interpreting-wav-data/2227174#2227174
+
 def interpret_wav(raw_bytes, n_frames, n_channels, sample_width, interleaved = True):
 
     if sample_width == 1:
