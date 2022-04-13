@@ -130,12 +130,12 @@ def fir_low_pass(samples, fs, fL, N, outputType):
 tStart=0
 tEnd=120
 # filter method
-channels, nChannels, sampleRate, ampWidth, nFrames = extract_audio('WhatAWonderfulWorld_LouisArmstrong_c7p.wav', tStart, tEnd)
+channels, nChannels, sampleRate, ampWidth, nFrames = extract_audio('WhatAWonderfulWorld_LouisArmstrong.wav', tStart, tEnd)
 samples = convert_to_mono(channels, nChannels, np.int16)
 
 plot_audio_samples("What A WonderfulWorld for 2p", samples, sampleRate, tStart, tEnd)
 
-wavfile.write('WhatAWonderfulWorld_LouisArmstrong_c7p_mono.wav', sampleRate, samples)
+wavfile.write('WhatAWonderfulWorld_LouisArmstrong_mono.wav', sampleRate, samples)
 
 
 lp_samples_filtered = fir_low_pass(samples, sampleRate, 300, 461, np.int16)               # First pass
@@ -146,25 +146,25 @@ hp_samples_filtered = fir_high_pass(hp_samples_filtered, sampleRate, 6600, 461, 
 
 samples_filtered = np.mean(np.array([lp_samples_filtered, hp_samples_filtered]), axis=0).astype(np.int16)
 
-plot_audio_samples("WhatAWonderfulWorld_LouisArmstrong_c7p_with filter.wav", samples_filtered, sampleRate, tStart, tEnd)
+plot_audio_samples("WhatAWonderfulWorld_LouisArmstrong_with filter.wav", samples_filtered, sampleRate, tStart, tEnd)
 
-wavfile.write("WhatAWonderfulWorld_LouisArmstrong_c7p_with filter.wav", sampleRate, samples_filtered)
+wavfile.write("WhatAWonderfulWorld_LouisArmstrong_with filter.wav", sampleRate, samples_filtered)
 
 ## mix both channels (left and right) together method
-channels, nChannels, sampleRate, ampWidth, nFrames = extract_audio('WhatAWonderfulWorld_LouisArmstrong_c7p_with.wav', tStart, tEnd)
+channels, nChannels, sampleRate, ampWidth, nFrames = extract_audio('WhatAWonderfulWorld_LouisArmstrong.wav', tStart, tEnd)
 samples_no_voice = (channels[0]-channels[1]).astype(np.int16)
 
-plot_audio_samples("WhatAWonderfulWorld_LouisArmstrong_c7p_with mixing both channels.wav", samples_no_voice, sampleRate, tStart, tEnd)
+plot_audio_samples("WhatAWonderfulWorld_LouisArmstrong_with mixing both channels.wav", samples_no_voice, sampleRate, tStart, tEnd)
 
-wavfile.write("WhatAWonderfulWorld_LouisArmstrong_c7p_with mixing both channels.wav", sampleRate, samples_no_voice)
+wavfile.write("WhatAWonderfulWorld_LouisArmstrong_with mixing both channels.wav", sampleRate, samples_no_voice)
 
 ## mixing both method above
 lp_samples_filtered.resize(samples_no_voice.shape)
 hp_samples_filtered.resize(samples_no_voice.shape)
 
 samples = ((samples_no_voice+lp_samples_filtered+hp_samples_filtered)/3).astype(np.int16)
-plot_audio_samples("WhatAWonderfulWorld_LouisArmstrong_c7p_with both method above mixed.wav", samples_no_voice, sampleRate, tStart, tEnd)
+plot_audio_samples("WhatAWonderfulWorld_LouisArmstrong_with both method above mixed.wav", samples_no_voice, sampleRate, tStart, tEnd)
 
-wavfile.write("WhatAWonderfulWorld_LouisArmstrong_c7p_with both method above mixed.wav", sampleRate, samples_no_voice)
+wavfile.write("WhatAWonderfulWorld_LouisArmstrong_with both method above mixed.wav", sampleRate, samples_no_voice)
 #wavfile.write('WhatAWonderfulWorld_LouisArmstrong_c7p_test2.wav', sampleRate, samples_filtered)
 #!ffmpeg -y -loglevel panic -i sultans_novoice1.wav sultans_novoice1.mp3
